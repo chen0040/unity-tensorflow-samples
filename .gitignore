@@ -1,22 +1,50 @@
-# Compiled class file
-*.class
+# =============== #
+# Unity generated #
+# =============== #
+Temp/
+Library/
+TestSample/
+Assets/ML-Agents/
 
-# Log file
-*.log
+# ===================================== #
+# Visual Studio / MonoDevelop generated #
+# ===================================== #
+ExportedObj/
+obj/
+*.svd
+*.userprefs
+/*.csproj
+*.pidb
+*.suo
+/*.sln
+*.user
+*.unityproj
+*.booproj
+.vs/
 
-# BlueJ files
-*.ctxt
+# ============ #
+# OS generated #
+# ============ #
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+# Packages # 
+############ 
+# it's better to unpack these files and commit the raw source 
+# git has its own built in compression methods 
+*.7z 
+*.dmg 
+*.gz 
+*.iso
+*.rar 
+*.tar 
+*.zip 
 
-# Package Files #
-*.jar
-*.war
-*.ear
-*.zip
-*.tar.gz
-*.rar
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+# ============ #
+# Project Specific #
+# ============ #
