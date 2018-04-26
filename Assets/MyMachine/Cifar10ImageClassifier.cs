@@ -62,8 +62,8 @@ public class Cifar10ImageClassifier {
         
         var runner = session.GetRunner();
         runner
-            .AddInput(graph["conv2d_1_input"][0], imageBytes)
-            .AddInput(graph["dropout_1/keras_learning_phase"][0], new TFTensor(0));
+            .AddInput(graph["conv2d_1_input"][0], TFTensor.FromBuffer(new TFShape(new long[] { 1, 32, 32, 3 }), imageBytes, 0, 3072))
+            .AddInput(graph["dropout_1/keras_learning_phase"][0], new TFTensor(TFDataType.Bool, new long[0], 1));
 
         runner.Fetch(graph["output_node0"][0]);
         float[,] recurrent_tensor = runner.Run()[0].GetValue() as float[,];
