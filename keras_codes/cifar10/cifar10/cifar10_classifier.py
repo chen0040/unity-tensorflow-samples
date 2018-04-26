@@ -33,16 +33,21 @@ class Cifar10Classifier:
     def load_model(self, model_dir_path):
 
         config_file_path = self.get_config_file_path(model_dir_path)
+        weight_file_path = self.get_weight_file_path(model_dir_path)
 
+        if not os.path.exists(config_file_path):
+            return
+        if not os.path.exists(weight_file_path):
+            return
+        
         config = np.load(config_file_path).item()
 
         self.input_shape = config['input_shape']
         self.nb_classes = config['nb_classes']
 
-        self.model = model_from_json(open(self.get_architecture_file_path(model_dir_path)).read())
+        self.model = self.create_model(self.input_shape, self.nb_classes)
         self.model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
-        self.model.load_weights(self.get_weight_file_path(model_dir_path))
-
+        self.model.load_weights(weight_file_path)
 
     def predict_label(self, filename):
         img = Image.open(filename)
@@ -201,12 +206,7 @@ class Cifar10Classifier:
 
         from tensorflow.python.framework import graph_util
         from tensorflow.python.framework import graph_io
-        from tensorflow.tools.graph_transforms import TransformGraph
-        if quantize:
-            transforms = ["quantize_weights", "quantize_nodes"]
-            transformed_graph_def = TransformGraph(sess.graph.as_graph_def(), [], pred_node_names, transforms)
-            constant_graph = graph_util.convert_variables_to_constants(sess, transformed_graph_def, pred_node_names)
-        else:
-            constant_graph = graph_util.convert_variables_to_constants(sess, sess.graph.as_graph_def(), pred_node_names)
+        # from tensorflow.tools.graph_transforms import TransformGraph
+        constant_graph = graph_util.convert_variables_to_constants(sess, sess.graph.as_graph_def(), pred_node_names)
         graph_io.write_graph(constant_graph, output_fld, output_model_file, as_text=False)
         print('saved the freezed graph (ready for inference) at: ', output_model_file)
